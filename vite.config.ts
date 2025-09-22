@@ -18,7 +18,7 @@ const filesPathToExclude = excludedFilesPath.map((path) => {
 
 export default defineConfig({
   // depending on your application, base can also be "/"
-  base: '',
+  base: '/geaas-v2/',
   plugins: [react(), viteTsconfigPaths(), eslint()],
   server: {
     // this ensures that the browser opens upon server start
