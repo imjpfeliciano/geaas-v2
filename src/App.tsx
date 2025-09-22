@@ -16,7 +16,7 @@ import {
   StyledInput,
   StyledBlockInput,
   StyledLink,
-  StyledFooter,
+
 } from './Styles';
 
 
@@ -68,10 +68,23 @@ const App: React.FC<AppProps> = () => {
       <StyledAppWrapper grayscale={grayscale}>
         <StyledContentWrapper>
           <StyledHeader>
-            <StyledTitle data-testid="application-title">GEAAS</StyledTitle>
+            <StyledTitle data-testid="application-title">GEAAS-V2</StyledTitle>
             <StyledSubtitle>
               <Emoji symbol="👻" label="ghost" /> Ghost Emoji As A Service
             </StyledSubtitle>
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '10px',
+            }}>
+              Version 2.0.0 - This project is a fork of the original GEAAS project by tribakzero.
+              <span>
+              GitHub: <StyledLink href="https://github.com/tribakzero/geaas">tribakzero/geeas</StyledLink>
+              </span>
+
+            </div>
           </StyledHeader>
           <Canvas
             width={width}
@@ -149,9 +162,6 @@ const App: React.FC<AppProps> = () => {
             </StyledFieldset>
           )}
         </StyledContentWrapper>
-        <StyledFooter>
-          GitHub: <StyledLink href="https://github.com/tribakzero/geaas">tribakzero/geeas</StyledLink>
-        </StyledFooter>
       </StyledAppWrapper>
     </>
   );
