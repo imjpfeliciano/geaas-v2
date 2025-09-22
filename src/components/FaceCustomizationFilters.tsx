@@ -1,12 +1,8 @@
 import React, { ChangeEvent } from 'react';
-import {
-  StyledFieldset,
-  StyledInputsWrapper,
-  StyledHalfLabel,
-  StyledThirdLabel,
-  StyledInput,
-  StyledBlockInput,
-} from '../Styles';
+import { StyledFieldset, StyledInputsWrapper } from '../Styles';
+import Checkbox from './Checkbox';
+import Text from './Text';
+import RangeSlider from './RangeSlider';
 
 interface FaceCustomizationFiltersProps {
   toggleGhost: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -19,6 +15,10 @@ interface FaceCustomizationFiltersProps {
   scale: number;
   width: number;
   height: number;
+  circularSelection?: boolean;
+  toggleCircularSelection: (event: ChangeEvent<HTMLInputElement>) => void;
+  borderRadius: number;
+  onChangeBorderRadius: (value: number) => void;
 }
 
 const FaceCustomizationFilters: React.FC<FaceCustomizationFiltersProps> = ({
@@ -32,54 +32,68 @@ const FaceCustomizationFilters: React.FC<FaceCustomizationFiltersProps> = ({
   scale,
   width,
   height,
+  circularSelection = false,
+  toggleCircularSelection,
+  borderRadius,
+  onChangeBorderRadius,
 }) => {
   return (
     <StyledFieldset>
-      <legend>Step 2. Face customization</legend>
+      <Text fontWeight="bold">Step 2. Face customization</Text>
       <StyledInputsWrapper>
-        <StyledHalfLabel>
-          Ghost Face:
-          <StyledInput type="checkbox" defaultChecked={true} onChange={toggleGhost} />
-        </StyledHalfLabel>
+        <div className="flex flex-row gap-2 justify-center w-full pt-4">
+          <Checkbox checked={true} onChange={toggleGhost} title="Ghost Face" />
+          <Checkbox checked={true} onChange={toggleGrayscale} title="Grayscale" />
+          <Checkbox checked={circularSelection} onChange={toggleCircularSelection} title="Circular Selection" />
+        </div>
 
-        <StyledHalfLabel>
-          Grayscale:
-          <StyledInput type="checkbox" defaultChecked={false} onChange={toggleGrayscale} />
-        </StyledHalfLabel>
-
-        <StyledThirdLabel>
-          Offset X:
-          <StyledBlockInput
-            type="range"
+        <div className="flex flex-row gap-2 justify-center w-full">
+          <RangeSlider
+            value={x}
             min={-width}
             max={width}
-            value={x}
             onChange={(event) => setX(parseInt(event.target.value))}
+            label="Offset X"
           />
-        </StyledThirdLabel>
 
-        <StyledThirdLabel>
-          Offset Y:
-          <StyledBlockInput
-            type="range"
+          <RangeSlider
+            value={y}
             min={-height}
             max={height}
-            value={y}
             onChange={(event) => setY(parseInt(event.target.value))}
+            label="Offset Y"
           />
-        </StyledThirdLabel>
 
-        <StyledThirdLabel>
-          Scale:
-          <StyledBlockInput
-            type="range"
-            min="0"
-            max={1}
-            step="0.01"
+          <RangeSlider
             value={scale}
+            min={0}
+            max={1}
             onChange={(event) => setScale(parseFloat(event.target.value))}
+            label="Scale"
+            step={0.01}
           />
-        </StyledThirdLabel>
+        </div>
+
+        {circularSelection && (
+          <div className="w-full flex justify-center">
+            <RangeSlider
+              value={borderRadius}
+              min={0}
+              max={100}
+              onChange={(event) => onChangeBorderRadius(parseFloat(event.target.value))}
+              label="Border radius"
+            />
+
+            <RangeSlider
+              value={scale}
+              min={0}
+              max={1}
+              onChange={(event) => setScale(parseFloat(event.target.value))}
+              label="Rotate"
+              step={0.01}
+            />
+          </div>
+        )}
       </StyledInputsWrapper>
     </StyledFieldset>
   );
